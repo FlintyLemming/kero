@@ -511,6 +511,13 @@ func (d *Daemon) call(c *controlConn, method string, raw json.RawMessage) (any, 
 		d.changed()
 		return true, nil
 
+	case "project.command":
+		var p proto.ProjectParams
+		if err := decode(&p); err != nil {
+			return nil, err
+		}
+		return true, d.setProjectCommand(p)
+
 	case "project.move":
 		var p proto.MoveProjectParams
 		if err := decode(&p); err != nil {

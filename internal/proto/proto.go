@@ -150,6 +150,9 @@ type Project struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 	Dir  string `json:"dir,omitempty"`
+	// Command is the line the project's new sessions run in their shell,
+	// those the app starts (CreateParams.ProjectCommand); "" for none.
+	Command string `json:"command,omitempty"`
 }
 
 // Pane is a terminal the daemon keeps running: a shell in a
@@ -724,6 +727,10 @@ type (
 		// existing branch no worktree has is checked out as it is.
 		Worktree string `json:"worktree,omitempty"`
 		Base     string `json:"base,omitempty"`
+		// ProjectCommand runs the project's Command in a new session given
+		// no Command of its own. The app asks for it; kero new doesn't, so
+		// that a script's session starts at the shell it expects.
+		ProjectCommand bool `json:"projectCommand,omitempty"`
 	}
 	IDParams struct {
 		ID string `json:"id"`
@@ -905,6 +912,10 @@ type (
 		ID   string `json:"id,omitempty"`
 		Name string `json:"name,omitempty"`
 		Dir  string `json:"dir,omitempty"`
+
+		// Command is project.command's line. Apart from the fields above,
+		// so that gofmt leaves upstream's lines as they are.
+		Command string `json:"command,omitempty"`
 	}
 	MoveProjectParams struct {
 		ID    string `json:"id"`

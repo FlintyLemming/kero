@@ -184,6 +184,7 @@ func (a *App) view(c *ui.Context) {
 	a.pickerView(c, pal)
 	a.confirmView(c, pal)
 	a.worktreeView(c, pal)
+	a.projectCommandView(c, pal)
 	// A preview that showed no more fades in anew next time.
 	if !a.previewShown {
 		a.previewKey = ""
@@ -427,6 +428,9 @@ func (a *App) groupBody(c *ui.Context, pal *palette, g group, gi int, moving boo
 		}
 		if m.Item(locales.SessionRename()).Disabled(id == "").Chosen() {
 			a.startProjectRename(id)
+		}
+		if m.Item(locales.ProjectCommandMenu()).Disabled(id == "").Chosen() {
+			a.askProjectCommand(g.host, id)
 		}
 		a.projectMenu(m, g)
 		m.Separator()

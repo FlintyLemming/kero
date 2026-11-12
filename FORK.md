@@ -37,3 +37,17 @@ go tool mygo build -sign - -skip-notarize -skip-dmg      # ad-hoc 签名的正�
 
 注意：`mygo.json` 的 `updates.github` 仍然指向 egoist/kero。自己构建的版本检查更新时会被官方版本覆盖，
 长期使用前需要在一个单独的提交里改掉。
+
+## 本 fork 的功能
+
+### 项目默认命令
+
+在侧边栏右键项目 → **默认命令…**，填写一行命令（如 `claude` 或 `npm run dev`），留空则清除。
+
+- 在应用里新建的会话（+ 按钮、⌘T、命令面板、打开项目、工作树会话等）都会先在 shell 里运行这条命令，命令结束后回到 shell。
+- 分割出来的窗格、快速终端和命令行的 `kero new` 不受影响，仍然直接进入 shell。
+- 命令保存在 kerod 里，跟随项目。远程主机上的项目只有在那台主机也运行本 fork 构建的 kero-server 时才能使用，
+  否则保存时会提示错误。
+
+代码：`project_command.go`、`internal/daemon/project_command.go`，以及上游文件里的几处挂钩
+（`proto.Project.Command`、`CreateParams.ProjectCommand`、`project.command` RPC、项目右键菜单）。

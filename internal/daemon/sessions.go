@@ -275,6 +275,7 @@ func (d *Daemon) create(p proto.CreateParams) (proto.Session, error) {
 	}
 	d.mu.Lock()
 	project := d.projectFor(p.Project, dir)
+	p.Command = d.sessionCommandLocked(project, p)
 	if dir == "" {
 		for _, pr := range d.projects {
 			if pr.ID == project {

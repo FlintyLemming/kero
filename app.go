@@ -139,6 +139,7 @@ type App struct {
 	find    findState
 	confirm *confirmation
 	wtAsk   *worktreeAsk
+	cmdAsk  *projectCommandAsk
 	// endedAll shows all of the sidebar's Ended; skillMissing tells, as
 	// of skillsAt, that no kind of agent has Kero's skill (ended.go).
 	endedAll     bool
@@ -1268,6 +1269,8 @@ func (a *App) create(h *host, p proto.CreateParams, expand string) {
 	if cl == nil {
 		return
 	}
+	// The user's new sessions run their project's default command.
+	p.ProjectCommand = true
 	go func() {
 		var s proto.Session
 		err := cl.Call("create", p, &s)
@@ -1355,7 +1358,7 @@ func (a *App) openProjectDirs(h *host, cl *client.Client, dirs []string, local b
 		}
 		seen[p.ID] = true
 		var s proto.Session
-		if err := cl.Call("create", proto.CreateParams{Project: p.ID, Dir: dir}, &s); err != nil {
+		if err := cl.Call("create", proto.CreateParams{Project: p.ID, Dir: dir, ProjectCommand: true}, &s); err != nil {
 			errs = append(errs, fmt.Errorf("%s: %w", dir, err))
 			continue
 		}

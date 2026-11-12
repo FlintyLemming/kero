@@ -6186,6 +6186,46 @@ func (msgs Messages) WorktreeCreate() string {
 	return Catalog.Format(msgs.locale, "worktreeCreate", nil)
 }
 
+// ProjectCommandMenu says "Default Command…"
+// in the language the app shows.
+func ProjectCommandMenu() string { return In(i18n.Locale()).ProjectCommandMenu() }
+
+// ProjectCommandMenu says "Default Command…"
+// in the language of msgs.
+func (msgs Messages) ProjectCommandMenu() string {
+	return Catalog.Format(msgs.locale, "projectCommandMenu", nil)
+}
+
+// ProjectCommandTitle says "Default Command for “{name}”"
+// in the language the app shows.
+func ProjectCommandTitle(name string) string { return In(i18n.Locale()).ProjectCommandTitle(name) }
+
+// ProjectCommandTitle says "Default Command for “{name}”"
+// in the language of msgs.
+func (msgs Messages) ProjectCommandTitle(name string) string {
+	return Catalog.Format(msgs.locale, "projectCommandTitle", map[string]any{"name": name})
+}
+
+// ProjectCommandDetail says "New sessions in this project run it in their shell, then return to the shell when it ends. Leave it empty to start at…"
+// in the language the app shows.
+func ProjectCommandDetail() string { return In(i18n.Locale()).ProjectCommandDetail() }
+
+// ProjectCommandDetail says "New sessions in this project run it in their shell, then return to the shell when it ends. Leave it empty to start at…"
+// in the language of msgs.
+func (msgs Messages) ProjectCommandDetail() string {
+	return Catalog.Format(msgs.locale, "projectCommandDetail", nil)
+}
+
+// ProjectCommandPlaceholder says "Command, as claude or npm run dev"
+// in the language the app shows.
+func ProjectCommandPlaceholder() string { return In(i18n.Locale()).ProjectCommandPlaceholder() }
+
+// ProjectCommandPlaceholder says "Command, as claude or npm run dev"
+// in the language of msgs.
+func (msgs Messages) ProjectCommandPlaceholder() string {
+	return Catalog.Format(msgs.locale, "projectCommandPlaceholder", nil)
+}
+
 // WorktreeRemoveTitle says "Remove the worktree of “{name}” too?"
 // in the language the app shows.
 func WorktreeRemoveTitle(name string) string { return In(i18n.Locale()).WorktreeRemoveTitle(name) }
