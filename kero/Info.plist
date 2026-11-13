@@ -66,10 +66,10 @@
 	<string>A program running within Kero would like to use your microphone.</string>
 
 	<!-- Sparkle auto-update configuration.
-	     Appcast feed hosted on Cloudflare R2 (releases.kero.sh); see RELEASING.md. -->
+	     This fork's appcast, in its GitHub releases; see FORK.md. -->
 	<key>SUFeedURL</key>
-	<string>https://releases.kero.sh/appcast.xml</string>
+	<string>https://github.com/FlintyLemming/kero/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>gv9GLMPjH5yMQkZMFXnoNfHOyL8/7KGzl/jzAqlzZZY=</string>
+	<string>lYW2m2vtuj8hqztjYgrRJnFpTxBLqGFSgySdhlbbe0A=</string>
 </dict>
 </plist>

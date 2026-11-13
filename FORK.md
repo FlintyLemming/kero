@@ -30,8 +30,34 @@ xcodebuild -project kero.xcodeproj -scheme kero -configuration Debug \
 
 Debug 构建的包名是 `sh.kero.dev`，设置在 `~/.config/kero-dev/`，可以和装好的 Kero 同时运行，互不影响。
 
-注意：应用的 Sparkle 更新源还是上游的 `https://releases.kero.sh/appcast.xml`（`kero/Info.plist` 里的
-`SUFeedURL` 和 `SUPublicEDKey`）。上游目前停在 0.1.48，所以暂时不会覆盖自己的构建，但发版前要改成自己的。
+## 打包
+
+```bash
+scripts/fork-package.sh
+```
+
+输出到 `build/fork/`：`Kero.app`、`Kero-<版本>.dmg` 和 `.zip`。
+
+- 只构建 Apple Silicon（arm64）版本，使用 ad-hoc 签名，不需要苹果开发者账号。
+  Apple Silicon 不运行完全没签名的程序，ad-hoc 签名就是最低要求，它不对应任何开发者身份。
+- 关闭了 hardened runtime：它只在公证时才有用，而且开着时 ad-hoc 签名的应用可能加载不了自己内置的 ad-hoc 框架。
+- 版本号是 `<上游版本>-patch-<yymmdd>`，比如 `0.1.48-patch-261113`；build 号是 `<yymmdd>.<HHMM>`，只会往上涨，
+  Sparkle 靠它判断新旧。这两个值都是构建时传给 xcodebuild 的，不提交进仓库。
+- 包名是 `sh.kero`，和官方版一样，所以替换 /Applications 里的 Kero 后，设置和会话都会照旧保留。
+- 在本机构建的应用没有隔离属性（quarantine），可以直接打开。从网上下载的 dmg 或 zip 会被 Gatekeeper 拦下，
+  装好后运行一次 `xattr -dr com.apple.quarantine /Applications/Kero.app`。
+- `DERIVED_DATA=<目录>` 可以复用已有的构建目录，默认用 `build/DerivedData`。
+
+## 更新
+
+Sparkle 的更新源（`kero/Info.plist` 里的 `SUFeedURL`）指向本仓库的
+`https://github.com/FlintyLemming/kero/releases/latest/download/appcast.xml`，`SUPublicEDKey` 是本 fork 自己的公钥，
+所以上游往 releases.kero.sh 发的任何版本都不会覆盖这个构建。这个仓库发出第一个带 appcast 的 Release 之前，
+"检查更新"会报错，可以不用管。
+
+签名私钥在 `~/Library/Application Support/kero-fork/sparkle_ed25519.key`，没有放进钥匙串，也不在仓库里。
+需要时用 Sparkle 的 `sign_update --ed-key-file` 或 `generate_appcast --ed-key-file` 读取。
+已安装的构建只接受用这把私钥签名的更新，**要备份到密码管理器**。
 
 ## 本 fork 的功能
 
