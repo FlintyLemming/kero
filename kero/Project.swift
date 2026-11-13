@@ -25,6 +25,11 @@ final class Project: nonisolated ObservableObject, nonisolated Identifiable {
     /// selected session's working directory, re-derived as the session
     /// moves (see `panelRoot(followingSessionAt:)`).
     @Published var customDirectory: String?
+    /// The command line a new session of this project runs in the user's
+    /// shell before the shell itself ("Default Command…" on the project
+    /// row). Only sessions the user opens as tabs run it: splits, restored
+    /// sessions, and terminals the CLI or automation start stay plain shells.
+    @Published var defaultCommand: String?
     @Published var tabs: [PaneTab] = []
     @Published var selectedTabID: UUID? {
         didSet {
@@ -240,6 +245,7 @@ final class Project: nonisolated ObservableObject, nonisolated Identifiable {
         let session = makeSession(
             directory: directory,
             commandArguments: commandArguments,
+            startupCommand: commandArguments == nil ? defaultCommand : nil,
             environmentPath: environmentPath
         )
         let tab = makeTab(content: .session(session))
@@ -255,6 +261,7 @@ final class Project: nonisolated ObservableObject, nonisolated Identifiable {
         directory: String? = nil,
         restoredHistory: String? = nil,
         commandArguments: [String]? = nil,
+        startupCommand: String? = nil,
         environmentPath: String? = nil
     ) -> TerminalSession {
         let session = TerminalSession(
@@ -263,6 +270,7 @@ final class Project: nonisolated ObservableObject, nonisolated Identifiable {
                 ?? selectedSession?.currentDirectoryPath,
             restoredHistory: restoredHistory,
             commandArguments: commandArguments,
+            startupCommand: startupCommand,
             environmentPath: environmentPath
         )
         session.onExited = { [weak self] session in

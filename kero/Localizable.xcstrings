@@ -437,6 +437,73 @@
         }
       }
     },
+    "Command, as claude or npm run dev" : {
+      "comment" : "Placeholder of the project default command field.",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンド（例：claude、npm run dev）"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令，如 claude 或 npm run dev"
+          }
+        }
+      }
+    },
+    "Default Command for “%@”" : {
+      "comment" : "Title of the project default command dialog. The placeholder is a project name.",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”のデフォルトコマンド"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”的默认命令"
+          }
+        }
+      }
+    },
+    "Default Command…" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デフォルトコマンド…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认命令…"
+          }
+        }
+      }
+    },
+    "New sessions in this project run it in your shell, then return to the shell when it ends. Leave it empty to start at the shell." : {
+      "comment" : "Explanation in the project default command dialog.",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このプロジェクトの新規セッションはシェルでこのコマンドを実行し、終了後はシェルに戻ります。空にするとシェルから始まります。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此项目新建的会话会在 shell 中运行这条命令，命令结束后回到 shell。留空则直接进入 shell。"
+          }
+        }
+      }
+    },
     "↑↓ navigate · Return save · Esc cancel · Tab light/dark" : {
       "localizations" : {
         "ja" : {

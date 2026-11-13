@@ -920,6 +920,7 @@ final class TerminalManager: nonisolated ObservableObject {
                 return ProjectSnapshot(
                     customName: project.customName,
                     customDirectory: project.customDirectory,
+                    defaultCommand: project.defaultCommand,
                     tabs: tabs,
                     selectedTabIndex: project.tabs.firstIndex { $0.id == project.selectedTabID }
                 )
@@ -1011,6 +1012,7 @@ final class TerminalManager: nonisolated ObservableObject {
             let project = makeProject(createInitialSession: false)
             project.customName = Project.normalizedCustomName(saved.customName)
             project.customDirectory = saved.customDirectory
+            project.defaultCommand = saved.defaultCommand
             var restoredContexts: [(tab: PaneTab, sessionIndex: Int)] = []
             for savedTab in saved.tabs {
                 guard let tab = project.restoreTab(

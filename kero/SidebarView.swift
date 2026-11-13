@@ -285,6 +285,9 @@ private struct SidebarProjectRow: View {
                     project.customDirectory = nil
                 }
             }
+            Button("Default Command…") {
+                ProjectDefaultCommandPrompt.edit(project)
+            }
             Divider()
             Button("Close Project") {
                 close()

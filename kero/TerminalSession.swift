@@ -57,6 +57,7 @@ final class TerminalSession: NSObject, nonisolated ObservableObject, nonisolated
         initialDirectory: String? = nil,
         restoredHistory: String? = nil,
         commandArguments: [String]? = nil,
+        startupCommand: String? = nil,
         environmentPath: String? = nil
     ) {
         let sessionID = UUID()
@@ -69,6 +70,7 @@ final class TerminalSession: NSObject, nonisolated ObservableObject, nonisolated
             backend: backend,
             shellPath: shellPath,
             commandArguments: directCommand,
+            startupCommand: startupCommand.flatMap { $0.isEmpty ? nil : $0 },
             pidFileURL: artifacts.pidFileURL,
             replayFileURL: artifacts.replayFileURL
         )
@@ -365,6 +367,7 @@ final class TerminalSession: NSObject, nonisolated ObservableObject, nonisolated
         backend: TerminalBackend,
         shellPath: String,
         commandArguments: [String]?,
+        startupCommand: String?,
         pidFileURL: URL?,
         replayFileURL: URL?
     ) -> String {
@@ -402,6 +405,21 @@ final class TerminalSession: NSObject, nonisolated ObservableObject, nonisolated
             // is quoted independently, so no command text is reparsed or
             // expanded by the launch shim.
             commands.append("exec /usr/bin/env -- \(argv)")
+        } else if let startupCommand {
+            // The project's default command runs in an interactive login
+            // shell, so it finds what the user's profile puts on PATH, and
+            // their aliases; then that same process becomes the plain login
+            // shell, which keeps the PID file right. The line is the user's
+            // own, in their shell's syntax, so it is passed through as is —
+            // on one line: Ghostty takes the launch as a line of its config.
+            let shell = shellQuote(shellPath)
+            var script = "\(startupCommand); exec \(shell) -l"
+            if (shellPath as NSString).lastPathComponent == "fish" {
+                // fish turns job control off for -c, which would leave the
+                // command in the shell's process group.
+                script = "status job-control full; " + script
+            }
+            commands.append("exec \(shell) -l -i -c \(shellQuote(script))")
         } else {
             commands.append("exec \(shellQuote(shellPath)) -l")
         }

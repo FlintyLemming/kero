@@ -192,6 +192,9 @@ struct SessionSnapshot: Codable {
         /// automatic (the closest git repository, never persisted).
         /// Optional so older snapshots still decode.
         var customDirectory: String?
+        /// The project's default command (`Project.defaultCommand`).
+        /// Optional so older snapshots still decode.
+        var defaultCommand: String?
         var tabs: [TabSnapshot]
         var selectedTabIndex: Int?
     }
